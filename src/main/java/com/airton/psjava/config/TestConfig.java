@@ -1,13 +1,16 @@
 package com.airton.psjava.config;
 
 import com.airton.psjava.entities.Product;
+import com.airton.psjava.entities.Shopcart;
 import com.airton.psjava.repository.ProductRepository;
+import com.airton.psjava.repository.ShopcartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Configuration
@@ -16,6 +19,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ShopcartRepository shopcartRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -28,6 +34,12 @@ public class TestConfig implements CommandLineRunner {
         Product p6 = new Product(null, "FIFA21",new BigDecimal("290.7"), Short.parseShort("160"), "FIFA21.png");
 
         productRepository.saveAll((Arrays.asList(p1,p2,p3,p4,p5,p6)));
+
+        Shopcart shop1 = new Shopcart(null, LocalDateTime.now());
+        Shopcart shop2 = new Shopcart(null, LocalDateTime.now());
+        Shopcart shop3 = new Shopcart(null, LocalDateTime.now());
+
+        shopcartRepository.saveAll((Arrays.asList(shop1,shop2,shop3)));
 
 
 
