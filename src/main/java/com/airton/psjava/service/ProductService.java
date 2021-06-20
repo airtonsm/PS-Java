@@ -1,6 +1,8 @@
 package com.airton.psjava.service;
 
 import com.airton.psjava.dto.ProductDTO;
+import com.airton.psjava.entities.Product;
+import com.airton.psjava.exception.ResourcesNotFoundException;
 import com.airton.psjava.mapper.ProductMapper;
 import com.airton.psjava.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,11 @@ public class ProductService {
     public List<ProductDTO> findAll(String sortAttribute) {
         String sortBy = ProductDTO.sortProduct(sortAttribute);
         return ProductMapper.toDTOList(repository.findAll(Sort.by(Sort.Direction.ASC, sortBy)));
+    }
+
+    public ProductDTO findById(Long id) {
+        Product product = repository.findById(id).orElseThrow(() -> new ResourcesNotFoundException(id));
+        return ProductMapper.toDTO(product);
     }
 
 }
