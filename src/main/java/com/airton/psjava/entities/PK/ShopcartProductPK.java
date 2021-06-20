@@ -36,9 +36,5 @@ public class ShopcartProductPK implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
-
-
-
-
 }
 
