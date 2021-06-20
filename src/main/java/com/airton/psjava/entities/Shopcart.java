@@ -4,6 +4,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_shopcart")
@@ -15,6 +17,9 @@ public class Shopcart {
 
     @CreationTimestamp
     private LocalDateTime moment;
+
+    @OneToMany(mappedBy = "id.shopcart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShopcartProduct> products = new ArrayList<>();
 
     public Shopcart() {
 

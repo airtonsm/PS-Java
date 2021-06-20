@@ -3,7 +3,11 @@ package com.airton.psjava.entities;
 import com.airton.psjava.entities.PK.ShopcartProductPK;
 
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "tb_shopcartProduct")
 public class ShopcartProduct {
 
 

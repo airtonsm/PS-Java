@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 /*
-class for relation in beetwan Products and shopcart(PK composed)
+class for relation in between Products and shopcart(PK composed)
  */
 @Embeddable
 public class ShopcartProductPK implements Serializable {
@@ -36,6 +36,8 @@ public class ShopcartProductPK implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+
 
 
 }

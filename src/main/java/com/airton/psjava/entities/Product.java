@@ -19,6 +19,9 @@ public class Product {
     private short score;
     private String image;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.product")
+    private Set<ShopcartProduct> items = new HashSet<>();
 
     public Product(){}
 
@@ -68,6 +71,10 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Set<ShopcartProduct> getItems() {
+        return items;
     }
 
     @Override
