@@ -1,9 +1,13 @@
 package com.airton.psjava.resource;
 
 import com.airton.psjava.dto.ProductDTO;
+import com.airton.psjava.exception.DataBaseException;
+import com.airton.psjava.exception.ResourcesNotFoundException;
 import com.airton.psjava.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -37,5 +41,12 @@ public class ProductResource {
                 .buildAndExpand(newProduct.getId()).toUri();
         return ResponseEntity.created(uri).body(newProduct);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
