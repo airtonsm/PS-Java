@@ -27,4 +27,15 @@ public class ProductMapper {
         return listDTO;
     }
 
+    public static Product toEntity(ProductDTO pdto) {
+        Product product = new Product();
+        product.setId(pdto.getId());
+        product.setName(pdto.getName());
+        product.setScore(pdto.getScore());
+        product.setPrice(pdto.getPrice());
+        product.setImage(pdto.getImage());
+
+        return product;
+    }
+
 }
