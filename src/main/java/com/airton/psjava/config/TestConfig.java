@@ -2,6 +2,7 @@ package com.airton.psjava.config;
 
 import com.airton.psjava.entities.Product;
 import com.airton.psjava.entities.Shopcart;
+import com.airton.psjava.entities.ShopcartProduct;
 import com.airton.psjava.repository.ProductRepository;
 import com.airton.psjava.repository.ShopcartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,19 @@ public class TestConfig implements CommandLineRunner {
         Shopcart shop2 = new Shopcart(null, LocalDateTime.now());
         Shopcart shop3 = new Shopcart(null, LocalDateTime.now());
 
+        shop1.getProducts().add(new ShopcartProduct(shop1, p1, 2));
+        shop1.getProducts().add(new ShopcartProduct(shop1, p2, 1));
+        shop1.getProducts().add(new ShopcartProduct(shop1, p5, 3));
+        shop1.getProducts().add(new ShopcartProduct(shop1, p4, 1));
+
+        shop2.getProducts().add(new ShopcartProduct(shop2, p2, 2));
+        shop2.getProducts().add(new ShopcartProduct(shop2, p3, 1));
+
+        shop3.getProducts().add(new ShopcartProduct(shop3, p4, 2));
+
         shopcartRepository.saveAll((Arrays.asList(shop1,shop2,shop3)));
+
+
 
 
 
