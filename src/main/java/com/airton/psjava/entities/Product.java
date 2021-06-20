@@ -1,4 +1,4 @@
-package com.airton.desafiosupera.entities;
+package com.airton.psjava.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
