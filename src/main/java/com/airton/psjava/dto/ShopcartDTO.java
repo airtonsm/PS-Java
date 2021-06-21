@@ -41,6 +41,21 @@ public class ShopcartDTO {
         }
     }
 
+    public void calcPrice() {
+        this.shipping = new BigDecimal("0.0");
+        this.total = new BigDecimal("0.0");
+        this.subtotal = new BigDecimal("0.0");
+
+        for (ProductDTO product : this.products) {
+            this.subtotal = this.subtotal.add(product.calcTotal());
+        }
+
+        if (subtotal.intValue() < 250) {
+            this.shipping = BigDecimal.valueOf(productQuantity * 10);
+        }
+        this.total = this.shipping.add(subtotal);
+    }
+
     public Long getId() {
         return id;
     }
