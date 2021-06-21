@@ -62,6 +62,15 @@ public class ShopcartResourceTest {
                 .andExpect(status().isNoContent());
     }
 
-    
+    @Test
+    public void Insert_Shopcart_Resource() throws Exception {
+
+        List<ProductQuantityDTO> products = Collections.singletonList(new ProductQuantityDTO(1L, 1));
+        mvc.perform(post("/shopcarts/")
+                .content(new ObjectMapper().writeValueAsString(products))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
+    }
 
 }
