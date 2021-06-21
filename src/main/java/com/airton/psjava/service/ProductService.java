@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -43,6 +44,17 @@ public class ProductService {
             throw new ResourcesNotFoundException(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException(e.getMessage());
+        }
+    }
+
+    public ProductDTO update(Long id, ProductDTO newProduct) {
+        try {
+            Product entity = repository.getById(id);
+            ProductMapper.merge(entity, newProduct);
+
+            return ProductMapper.toDTO(repository.save(entity));
+        } catch (EntityNotFoundException e) {
+            throw new ResourcesNotFoundException(id);
         }
     }
 
