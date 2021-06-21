@@ -1,12 +1,15 @@
 package com.airton.psjava.resource;
 
+import com.airton.psjava.dto.ProductQuantityDTO;
 import com.airton.psjava.dto.ShopcartDTO;
 import com.airton.psjava.service.ShopcartService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,6 +35,14 @@ public class ShopcartResource {
     public ResponseEntity<ShopcartDTO> checkout(@PathVariable Long id) {
         ShopcartDTO obj = service.checkout(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @PostMapping
+    public ResponseEntity<ShopcartDTO> insert(@RequestBody List<ProductQuantityDTO> products) {
+        ShopcartDTO newShopcart = service.insert(products);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newShopcart.getId()).toUri();
+        return ResponseEntity.created(uri).body(newShopcart);
     }
 
 }
