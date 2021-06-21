@@ -18,10 +18,10 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = PsJavaApplication.class)
@@ -65,8 +65,17 @@ class ProductResourceTest {
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    public void List_Product_Resource() throws Exception {
 
-
+        mvc.perform(get(BASE_URL + "?sortAttribute=SCORE").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(6))))
+                .andExpect(jsonPath("$[0].id", is(2)))
+                .andExpect(jsonPath("$[0].score", is(80)));
+    }
 
     private ProductDTO getExampleProduct() {
         return new ProductDTO(null, "PES2021", BigDecimal.valueOf(199.00), Short.parseShort("170"), "pes2021.png");
