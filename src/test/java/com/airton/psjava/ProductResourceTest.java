@@ -54,6 +54,19 @@ class ProductResourceTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    public void Insert_Product_Resource() throws Exception {
+
+        ProductDTO product = getExampleProduct();
+        mvc.perform(post(BASE_URL)
+                .content(new ObjectMapper().writeValueAsString(product))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
+    }
+
+
+
 
     private ProductDTO getExampleProduct() {
         return new ProductDTO(null, "PES2021", BigDecimal.valueOf(199.00), Short.parseShort("170"), "pes2021.png");
