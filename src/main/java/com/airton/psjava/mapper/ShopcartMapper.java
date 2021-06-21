@@ -6,6 +6,9 @@ import com.airton.psjava.entities.Shopcart;
 import com.airton.psjava.entities.ShopcartProduct;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ShopcartMapper {
 
     public static ShopcartDTO toDTO(Shopcart shopcart, String sortAttribute) {
@@ -27,6 +30,21 @@ public class ShopcartMapper {
         return dto;
     }
 
+    public static ShopcartDTO toDTO(Shopcart shopcart) { // overload
+        return toDTO(shopcart, null);
+    }
+
+    public static List<ShopcartDTO> toDTOList(List<Shopcart> shopcarts, String sortAttribute) {
+        List<ShopcartDTO> listDTO = new ArrayList<>();
+        for (Shopcart shop : shopcarts) {
+            listDTO.add(toDTO(shop, sortAttribute));
+        }
+        return listDTO;
+    }
+
+    public static List<ShopcartDTO> toDTOList(List<Shopcart> shopcarts) { // overload
+        return toDTOList(shopcarts, null);
+    }
 
 
 }
