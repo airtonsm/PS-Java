@@ -1,11 +1,14 @@
 package com.airton.psjava.dto;
 
+import com.airton.psjava.enums.EnumShopcartSortAttribute;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShopcartDTO {
@@ -18,6 +21,25 @@ public class ShopcartDTO {
     private Integer productQuantity = 0;
 
     private List<ProductDTO> products = new ArrayList<>();
+
+    public void sortProducts(String sortAttribute) {
+        switch (EnumShopcartSortAttribute.valueOf(sortAttribute)) {
+            case NAME:
+                this.products = this.getProducts().stream()
+                        .sorted(Comparator.comparing(ProductDTO::getName))
+                        .collect(Collectors.toList());
+                break;
+            case SCORE:
+                this.products = this.getProducts().stream()
+                        .sorted(Comparator.comparing(ProductDTO::getScore))
+                        .collect(Collectors.toList());
+                break;
+            case PRICE:
+                this.products = this.getProducts().stream()
+                        .sorted(Comparator.comparing(ProductDTO::getPrice))
+                        .collect(Collectors.toList());
+        }
+    }
 
     public Long getId() {
         return id;
