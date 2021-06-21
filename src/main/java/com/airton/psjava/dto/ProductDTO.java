@@ -15,6 +15,13 @@ public class ProductDTO {
     private short score;
     private String image;
     private Integer quantity;
+
+    public ProductDTO() {
+    }
+
+    public BigDecimal calcTotal() {
+        return price.multiply(BigDecimal.valueOf(quantity));
+    }
     
     public static String sortProduct(String sortAttribute) {
         EnumShopcartSortAttribute attribute = EnumShopcartSortAttribute.valueOfString(sortAttribute);
