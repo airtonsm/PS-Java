@@ -30,6 +30,15 @@ public class Shopcart {
         this.moment = moment;
     }
 
+    public Integer findProductIndex(Long id) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getProduct().getId().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public Long getId() {
         return id;
     }
