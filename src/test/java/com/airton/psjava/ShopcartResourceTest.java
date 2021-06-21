@@ -73,4 +73,20 @@ public class ShopcartResourceTest {
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    public void List_Shopcarts_Resource() throws Exception {
+
+        mvc.perform(get("/shopcarts?sortAttribute=SCORE").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(3))))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].products", hasSize(greaterThanOrEqualTo(3))))
+                .andExpect(jsonPath("$[0].products[0].id", is(2)))
+                .andExpect(jsonPath("$[0].products[0].score", is(80)))
+                .andExpect(jsonPath("$[1].id", is(2)));
+    }
+
+
 }
