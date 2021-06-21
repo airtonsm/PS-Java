@@ -19,6 +19,14 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
+    public ProductDTO(Long id, String name, BigDecimal price, short score, String image) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.score = score;
+        this.image = image;
+    }
+
     public BigDecimal calcTotal() {
         return price.multiply(BigDecimal.valueOf(quantity));
     }
