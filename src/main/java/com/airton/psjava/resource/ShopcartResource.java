@@ -59,4 +59,10 @@ public class ShopcartResource {
         return ResponseEntity.created(uri).body(editedShopcart);
     }
 
+    @DeleteMapping(value = "remove-product/{id}")
+    public ResponseEntity<ShopcartDTO> removeProduct(@PathVariable Long id, @RequestBody List<ProductQuantityDTO> products) {
+        ShopcartDTO editedShopcart = service.removeProduct(id, products);
+        return ResponseEntity.ok().body(editedShopcart);
+    }
+
 }

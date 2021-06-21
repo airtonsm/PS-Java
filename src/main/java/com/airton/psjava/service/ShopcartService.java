@@ -12,7 +12,11 @@ import com.airton.psjava.repository.ShopcartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -80,7 +84,26 @@ public class ShopcartService {
                 entity.getProducts().get(productIndex).addQuantity(quantity);
             }
         }
+        return ShopcartMapper.toDTO(shopcartRepository.save(entity));
+    }
+
+    public ShopcartDTO removeProduct(Long id, List<ProductQuantityDTO> products) {
+        Shopcart entity = shopcartRepository.getById(id);
+
+        for (ProductQuantityDTO product : products) {
+            Integer productIndex = entity.findProductIndex(product.getId());
+            Integer quantity = product.getQuantity().equals(0) ? 1 : product.getQuantity();
+            if (productIndex != -1) {
+                entity.getProducts().get(productIndex).removeQuantity(quantity);
+                if (entity.getProducts().get(productIndex).getQuantity() <= 0) {
+                    entity.getProducts().remove(productIndex.intValue());
+                }
+            } else {
+                throw new ResourcesNotFoundException("Product with id: " + product.getId() + " not found on shopcart with id: " + id);
+            }
+        }
 
         return ShopcartMapper.toDTO(shopcartRepository.save(entity));
+
     }
 }
