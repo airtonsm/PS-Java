@@ -4,18 +4,20 @@ import com.airton.psjava.dto.ProductQuantityDTO;
 import com.airton.psjava.dto.ShopcartDTO;
 import com.airton.psjava.entities.Shopcart;
 import com.airton.psjava.entities.ShopcartProduct;
+import com.airton.psjava.exception.DataBaseException;
 import com.airton.psjava.exception.ResourcesNotFoundException;
 import com.airton.psjava.mapper.ShopcartMapper;
 import com.airton.psjava.repository.ProductRepository;
 import com.airton.psjava.repository.ShopcartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ShopcartService {
-
 
 
     @Autowired
@@ -51,5 +53,16 @@ public class ShopcartService {
             shopcart.getProducts().add(new ShopcartProduct(shopcart, productRepository.getById(product.getId()), quantity));
         }
         return ShopcartMapper.toDTO(shopcartRepository.save(shopcart));
+    }
+
+    public void delete(Long id) {
+
+        try {
+            shopcartRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourcesNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(e.getMessage());
+        }
     }
 }
