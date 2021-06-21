@@ -38,4 +38,11 @@ public class ProductMapper {
         return product;
     }
 
+    public static void merge(Product entity, ProductDTO dto) {
+        entity.setImage(dto.getImage());
+        entity.setScore(dto.getScore());
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+    }
+
 }
