@@ -65,4 +65,22 @@ public class ShopcartService {
             throw new DataBaseException(e.getMessage());
         }
     }
+
+    public ShopcartDTO addProduct(Long id, List<ProductQuantityDTO> products) {
+        Shopcart entity = shopcartRepository.getById(id);
+
+        for (ProductQuantityDTO product : products) {
+            Integer productIndex = entity.findProductIndex(product.getId());
+            Integer quantity = product.getQuantity().equals(0) ? 1 : product.getQuantity();
+            if (productIndex == -1) {
+                entity.getProducts().add(
+                        new ShopcartProduct(entity, productRepository.getById(product.getId()), quantity)
+                );
+            } else {
+                entity.getProducts().get(productIndex).addQuantity(quantity);
+            }
+        }
+
+        return ShopcartMapper.toDTO(shopcartRepository.save(entity));
+    }
 }

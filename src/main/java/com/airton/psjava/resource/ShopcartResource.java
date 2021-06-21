@@ -51,4 +51,12 @@ public class ShopcartResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping(value = "add-product/{id}")
+    public ResponseEntity<ShopcartDTO> addProduct(@PathVariable Long id, @RequestBody List<ProductQuantityDTO> products) {
+        ShopcartDTO editedShopcart = service.addProduct(id, products);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(products).toUri();
+        return ResponseEntity.created(uri).body(editedShopcart);
+    }
+
 }
