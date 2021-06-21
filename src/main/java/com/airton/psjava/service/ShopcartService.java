@@ -25,4 +25,13 @@ public class ShopcartService {
         return ShopcartMapper.toDTO(shopcart, sortAttribute);
     }
 
+    public ShopcartDTO findById(Long id) {
+        return findById(id, null);
+    }
+
+    public ShopcartDTO checkout(Long id) {
+        ShopcartDTO dto = this.findById(id);
+        dto.calcPrice();
+        return dto;
+    }
 }
