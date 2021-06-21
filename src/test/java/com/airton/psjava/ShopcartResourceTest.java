@@ -88,5 +88,16 @@ public class ShopcartResourceTest {
                 .andExpect(jsonPath("$[1].id", is(2)));
     }
 
+    @Test
+    public void Find_By_Id_Shopcart_Resource() throws Exception {
+
+        mvc.perform(get("/shopcarts/1").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.products", hasSize(greaterThanOrEqualTo(3))))
+                .andExpect(jsonPath("$.products[0].score", is(200)));
+    }
 
 }
