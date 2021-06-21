@@ -116,4 +116,32 @@ public class ShopcartResourceTest {
                 .andExpect(jsonPath("$.products[0].score", is(200)));
     }
 
+    @Test
+    public void Add_Product_Shopcart_Resource() throws Exception {
+
+        List<ProductQuantityDTO> products = Collections.singletonList(new ProductQuantityDTO(6L, 3));
+        mvc.perform(post("/shopcarts/add-product/2")
+                .content(new ObjectMapper().writeValueAsString(products))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.products[2].id", is(6)))
+                .andExpect(jsonPath("$.products[2].quantity", is(3)));
+    }
+
+    @Test
+    public void Remove_Product_Shopcart_Resource() throws Exception {
+
+        List<ProductQuantityDTO> products = Collections.singletonList(new ProductQuantityDTO(4L, 1));
+        mvc.perform(delete("/shopcarts/remove-product/3")
+                .content(new ObjectMapper().writeValueAsString(products))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.products[0].id", is(4)))
+                .andExpect(jsonPath("$.products[0].quantity", is(1)));
+    }
+
 }
