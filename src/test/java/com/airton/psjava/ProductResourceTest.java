@@ -77,6 +77,41 @@ class ProductResourceTest {
                 .andExpect(jsonPath("$[0].score", is(80)));
     }
 
+    @Test
+    public void Find_By_Id_Product_Resource() throws Exception {
+
+        mvc.perform(get(BASE_URL + 1).contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.score", is(200)));
+    }
+
+    @Test
+    public void Edit_Product_Resource() throws Exception {
+
+        ProductDTO product = getExampleProduct();
+
+        MvcResult result = mvc.perform(post(BASE_URL)
+                .content(new ObjectMapper().writeValueAsString(product))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Integer id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+        ProductDTO editedProduct = getExampleProduct();
+        editedProduct.setScore(Short.parseShort("200"));
+
+        mvc.perform(put(BASE_URL + id)
+                .content(new ObjectMapper().writeValueAsString(editedProduct))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.score", is(200)));
+    }
+
     private ProductDTO getExampleProduct() {
         return new ProductDTO(null, "PES2021", BigDecimal.valueOf(199.00), Short.parseShort("170"), "pes2021.png");
     }
