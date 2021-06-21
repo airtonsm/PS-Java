@@ -100,4 +100,20 @@ public class ShopcartResourceTest {
                 .andExpect(jsonPath("$.products[0].score", is(200)));
     }
 
+    @Test
+    public void Checkout_Shopcart_Resource() throws Exception {
+
+        mvc.perform(get("/shopcarts/checkout/1").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.shipping", is(0.0)))
+                .andExpect(jsonPath("$.total", is(685.75)))
+                .andExpect(jsonPath("$.subtotal", is(685.75)))
+                .andExpect(jsonPath("$.productQuantity", is(7)))
+                .andExpect(jsonPath("$.products", hasSize(greaterThanOrEqualTo(3))))
+                .andExpect(jsonPath("$.products[0].score", is(200)));
+    }
+
 }
