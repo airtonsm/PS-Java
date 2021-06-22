@@ -3,7 +3,7 @@ package com.airton.psjava;
 import com.airton.psjava.dto.ProductDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,17 +18,20 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = PsJavaApplication.class)
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
 @AutoConfigureTestDatabase
-class ProductResourceTest {
+public class ProductResourceTest {
 
     private final static String BASE_URL = "/products/";
 
@@ -53,6 +56,7 @@ class ProductResourceTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
+
 
     @Test
     public void Insert_Product_Resource() throws Exception {
@@ -115,4 +119,8 @@ class ProductResourceTest {
     private ProductDTO getExampleProduct() {
         return new ProductDTO(null, "PES2021", BigDecimal.valueOf(199.00), Short.parseShort("170"), "pes2021.png");
     }
+
 }
+
+
+
