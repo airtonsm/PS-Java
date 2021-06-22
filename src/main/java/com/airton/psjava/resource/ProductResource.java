@@ -1,17 +1,14 @@
 package com.airton.psjava.resource;
 
 import com.airton.psjava.dto.ProductDTO;
-import com.airton.psjava.exception.DataBaseException;
-import com.airton.psjava.exception.ResourcesNotFoundException;
 import com.airton.psjava.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class ProductResource {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO obj) {
+    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO obj) {
         ProductDTO newProduct = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newProduct.getId()).toUri();
@@ -49,7 +46,7 @@ public class ProductResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO obj) {
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO obj) {
         ProductDTO newProduct = service.update(id, obj);
         return ResponseEntity.ok().body(newProduct);
     }

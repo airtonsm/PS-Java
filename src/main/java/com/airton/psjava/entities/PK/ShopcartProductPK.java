@@ -7,9 +7,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
-/*
-class for relation in between Products and shopcart(PK composed)
- */
+
+
 @Embeddable
 public class ShopcartProductPK implements Serializable {
 

@@ -3,6 +3,8 @@ package com.airton.psjava.dto;
 import com.airton.psjava.enums.EnumShopcartSortAttribute;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -10,9 +12,13 @@ import java.util.Objects;
 public class ProductDTO {
 
     private Long id;
+    @NotBlank(message = "Name is required")
     private String name;
+    @NotNull(message = "Price is required")
     private BigDecimal price;
+    @NotNull(message = "Score is required")
     private short score;
+    @NotBlank(message = "Image is required")
     private String image;
     private Integer quantity;
 

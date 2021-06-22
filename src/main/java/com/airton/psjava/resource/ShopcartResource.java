@@ -6,12 +6,15 @@ import com.airton.psjava.service.ShopcartService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping(value = "/shopcarts")
 public class ShopcartResource {
@@ -38,7 +41,7 @@ public class ShopcartResource {
     }
 
     @PostMapping
-    public ResponseEntity<ShopcartDTO> insert(@RequestBody List<ProductQuantityDTO> products) {
+    public ResponseEntity<ShopcartDTO> insert(@RequestBody List<@Valid ProductQuantityDTO> products) {
         ShopcartDTO newShopcart = service.insert(products);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newShopcart.getId()).toUri();
@@ -52,7 +55,7 @@ public class ShopcartResource {
     }
 
     @PostMapping(value = "add-product/{id}")
-    public ResponseEntity<ShopcartDTO> addProduct(@PathVariable Long id, @RequestBody List<ProductQuantityDTO> products) {
+    public ResponseEntity<ShopcartDTO> addProduct(@PathVariable Long id, @RequestBody List<@Valid ProductQuantityDTO> products) {
         ShopcartDTO editedShopcart = service.addProduct(id, products);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(products).toUri();
@@ -60,7 +63,7 @@ public class ShopcartResource {
     }
 
     @DeleteMapping(value = "remove-product/{id}")
-    public ResponseEntity<ShopcartDTO> removeProduct(@PathVariable Long id, @RequestBody List<ProductQuantityDTO> products) {
+    public ResponseEntity<ShopcartDTO> removeProduct(@PathVariable Long id, @RequestBody List<@Valid ProductQuantityDTO> products) {
         ShopcartDTO editedShopcart = service.removeProduct(id, products);
         return ResponseEntity.ok().body(editedShopcart);
     }
